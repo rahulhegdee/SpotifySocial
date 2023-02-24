@@ -1,0 +1,3 @@
+Get the front end of the app running through npm start. 
+Get the back end of the app running through ts-node-esm index.ts in the /server folder. 
+Start redis up with redis-server command. 
