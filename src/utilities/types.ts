@@ -5,4 +5,5 @@ export type TrackInfo = {
 	albumName: string;
 	spotifyURI: string;
 	albumType: string;
+	trackID?: string;
 };

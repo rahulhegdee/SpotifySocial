@@ -7,14 +7,8 @@ type TrackCardProps = {
 };
 
 function TrackCard({ trackInfo }: TrackCardProps) {
-	const {
-		artistName,
-		songName,
-		songCover,
-		albumName,
-		spotifyURI,
-		albumType,
-	} = trackInfo;
+	const { artistName, songName, songCover, albumName, spotifyURI, albumType } =
+		trackInfo;
 	return (
 		<div className={styles.wrapper}>
 			<img src={songCover} className={styles.songCover} />

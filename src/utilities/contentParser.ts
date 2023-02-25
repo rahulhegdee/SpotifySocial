@@ -1,3 +1,5 @@
+import { TrackInfo } from "./types";
+
 function getItems(data: any) {
 	return data?.data?.items ?? [];
 }
@@ -6,19 +8,23 @@ function trackParser(track: any) {
 	const artistArray = track?.artists?.reduce(
 		(allArtists: Array<string>, currArtist: any) => {
 			allArtists.push(currArtist.name);
-		}
+			return allArtists;
+		},
+		[]
 	);
 	const artists = artistArray.join(", ");
 
 	const song = track?.name;
 
-	const cover = track?.album?.images?.get(0)?.url;
+	const cover = track?.album?.images?.[2]?.url;
 
 	const album = track?.album?.name;
 
 	const albumType = track?.album?.type;
 
 	const URI = track?.external_urls?.spotify;
+
+	const id = track?.played_at;
 
 	return {
 		artistName: artists,
@@ -27,22 +33,23 @@ function trackParser(track: any) {
 		albumName: album,
 		spotifyURI: URI,
 		albumType: albumType,
+		trackID: id,
 	};
 }
 
-export function parseTopTracks(data: any): Object {
+export function parseTopTracks(data: any): Array<TrackInfo> {
 	const items = getItems(data);
-	items.map((item: any) => {
+	const parsedItems = items.map((item: any) => {
 		return trackParser(item);
 	});
-	return items;
+	return parsedItems;
 }
 
-export function parseRecentTracks(data: any): Object {
+export function parseRecentTracks(data: any): Array<TrackInfo> {
 	const items = getItems(data);
-	items.map((item: any) => {
+	const parsedItems = items.map((item: any) => {
 		const track = item.track;
 		return trackParser(track);
 	});
-	return items;
+	return parsedItems;
 }

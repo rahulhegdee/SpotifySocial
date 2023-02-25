@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { TokenContext } from "./App";
+import TrackCard from "./TrackCard";
 import { parseTopTracks, parseRecentTracks } from "./utilities/contentParser";
 
 type ContentGridProps = {
 	headerName: string;
 	contentEndpoint: string;
 	contentType: "top" | "recent";
+	// Add a numContent field here
 };
 
 function ContentGrid({
@@ -13,12 +15,11 @@ function ContentGrid({
 	contentEndpoint,
 	contentType,
 }: ContentGridProps) {
-	const [content, setContent] = useState({});
-	console.log(content);
+	const [content, setContent] = useState<any[]>([]);
 
 	const token = useContext(TokenContext);
 
-	const parseContent = (data: Object): Object => {
+	const parseContent = (data: Object): any => {
 		return contentType === "top"
 			? parseTopTracks(data)
 			: parseRecentTracks(data);
@@ -48,6 +49,11 @@ function ContentGrid({
 	return (
 		<div>
 			<h1>{headerName}</h1>
+			<div>
+				{content.map((item) => {
+					return <TrackCard trackInfo={item} key={item.trackID} />;
+				})}
+			</div>
 		</div>
 	);
 }
