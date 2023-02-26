@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { TokenContext } from "./App";
 import TrackCard from "./TrackCard";
 import { parseTopTracks, parseRecentTracks } from "./utilities/contentParser";
+import styles from "./ContentGrid.module.css";
 
 type ContentGridProps = {
 	headerName: string;
@@ -16,44 +17,63 @@ function ContentGrid({
 	contentType,
 }: ContentGridProps) {
 	const [content, setContent] = useState<any[]>([]);
+	const [showContent, setShowContent] = useState(false);
 
 	const token = useContext(TokenContext);
 
-	const parseContent = (data: Object): any => {
-		return contentType === "top"
-			? parseTopTracks(data)
-			: parseRecentTracks(data);
+	const toggleShowContent = () => {
+		setShowContent(!showContent);
 	};
 
-	const getContent = async () => {
-		try {
-			const contentData = await fetch(
-				`http://localhost:8000${contentEndpoint}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
+	useEffect(() => {
+		const parseContent = (data: Object): any => {
+			return contentType === "top"
+				? parseTopTracks(data)
+				: parseRecentTracks(data);
+		};
 
-			setContent(parseContent(contentData));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		(async () => {
+			try {
+				const contentData = await fetch(
+					`http://localhost:8000${contentEndpoint}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							Accept: "application/json",
+							Authorization: token,
+						},
+					}
+				).then((res) => res.json());
 
-	getContent();
+				setContent(parseContent(contentData));
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	}, [contentEndpoint, contentType, token]);
+
 	return (
-		<div>
-			<h1>{headerName}</h1>
-			<div>
-				{content.map((item) => {
-					return <TrackCard trackInfo={item} key={item.trackID} />;
-				})}
-			</div>
+		<div className={styles.layout}>
+			<h1 onClick={() => toggleShowContent()}>
+				{headerName}{" "}
+				{!showContent ? (
+					<i className="fa fa-caret-down"></i>
+				) : (
+					<i className="fa fa-caret-up"></i>
+				)}
+			</h1>
+			{showContent && (
+				<div className={styles.grid}>
+					{content.map((item) => {
+						return (
+							<div key={item.trackID} className={styles.item}>
+								<TrackCard trackInfo={item} />
+							</div>
+						);
+					})}
+				</div>
+			)}
 		</div>
 	);
 }

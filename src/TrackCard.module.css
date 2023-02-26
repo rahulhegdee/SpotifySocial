@@ -20,6 +20,9 @@
 
 p {
 	margin: 0px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .songName {

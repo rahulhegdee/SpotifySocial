@@ -16,24 +16,24 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 
 	const token = useContext(TokenContext);
 
-	function access(code: String, state: String) {
-		fetch("http://localhost:8000/access/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-			},
-			body: JSON.stringify({
-				code,
-				state,
-			}),
-		})
-			.then((res) => res.json())
-			.then((res) => setToken(res.token))
-			.then(() => setIsLoadingToken(false));
-	}
-
 	useEffect(() => {
+		function access(code: String, state: String) {
+			fetch("http://localhost:8000/access/", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify({
+					code,
+					state,
+				}),
+			})
+				.then((res) => res.json())
+				.then((res) => setToken(res.token))
+				.then(() => setIsLoadingToken(false));
+		}
+
 		let search = window.location.search;
 		let params = new URLSearchParams(search);
 		let code = params.get("code");
@@ -49,40 +49,7 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 			// both cases, we are no longer loading.
 			setIsLoadingToken(false);
 		}
-	}, []);
-
-	let test = () => {
-		// fetch("http://localhost:8000/top/tracks?timeRange=short_term", {
-		// 	method: "GET",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 		Accept: "application/json",
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => console.log(res));
-		// fetch("http://localhost:8000/recent/tracks", {
-		// 	method: "GET",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 		Accept: "application/json",
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => console.log(res));
-	};
-
-	const exampleTrack = {
-		songName: "EMPTY DREAMS",
-		artistName: "CYPARISS",
-		albumName: "EMPTY DREAMS",
-		spotifyURI: "https://open.spotify.com/track/2HhzV3FY4eZGueF0KpXZUo",
-		songCover:
-			"https://i.scdn.co/image/ab67616d000048515094c7ddde5b276cf014875d",
-		albumType: "album",
-	};
+	}, [setToken]);
 
 	return (
 		<div>
@@ -92,12 +59,15 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 				<div>
 					{token != null ? (
 						<div className={styles.wrapper}>
-							<button onClick={() => test()}>Press ME!</button>
-							<TrackCard trackInfo={exampleTrack} />
 							<ContentGrid
 								headerName={"Recent Plays"}
 								contentEndpoint="/recent/tracks"
 								contentType="recent"
+							/>
+							<ContentGrid
+								headerName={"Top 4 Weeks"}
+								contentEndpoint="/top/tracks?timeRange=short_term"
+								contentType="top"
 							/>
 						</div>
 					) : (
