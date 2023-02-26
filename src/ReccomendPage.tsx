@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import TrackCard from "./TrackCard";
 import styles from "./ReccomendPage.module.css";
 import { TokenContext } from "./App";
 import ContentGrid from "./ContentGrid";
+import SideNav from "./SideNav";
 
 type ReccomendPageProps = {
 	setToken: (newToken: string) => void;
@@ -59,16 +59,24 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 				<div>
 					{token != null ? (
 						<div className={styles.wrapper}>
-							<ContentGrid
-								headerName={"Recent Plays"}
-								contentEndpoint="/recent/tracks"
-								contentType="recent"
+							<SideNav
+								sections={[
+									{ header: "Listening Activity", pages: [] },
+									{ header: "Playlists", pages: [] },
+								]}
 							/>
-							<ContentGrid
-								headerName={"Top 4 Weeks"}
-								contentEndpoint="/top/tracks?timeRange=short_term"
-								contentType="top"
-							/>
+							<div>
+								<ContentGrid
+									headerName={"Recent Plays"}
+									contentEndpoint="/recent/tracks"
+									contentType="recent"
+								/>
+								<ContentGrid
+									headerName={"Top 4 Weeks"}
+									contentEndpoint="/top/tracks?timeRange=short_term"
+									contentType="top"
+								/>
+							</div>
 						</div>
 					) : (
 						<Navigate to="/" replace={true} />

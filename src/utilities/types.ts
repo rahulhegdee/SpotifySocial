@@ -7,3 +7,13 @@ export type TrackInfo = {
 	albumType: string;
 	trackID?: string;
 };
+
+export type Page = {
+	name: string;
+	content: Array<any>;
+};
+
+export type NavSection = {
+	header: string;
+	pages: Array<Page>;
+};
