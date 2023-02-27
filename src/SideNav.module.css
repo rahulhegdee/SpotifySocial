@@ -10,4 +10,7 @@
 .wrapper {
 	flex-shrink: 0;
 	flex-basis: 15em;
+	height: 100vh;
+	background-color: rgb(10, 10, 10);
+	margin-right: 1em;
 }
