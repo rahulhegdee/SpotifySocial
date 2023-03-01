@@ -16,6 +16,9 @@ function SideNav({ sections }: SideNavProps) {
 					</div>
 				);
 			})}
+			<div className={styles.closeButton}>
+				<i className="fa fa-close"></i>
+			</div>
 		</div>
 	);
 }

@@ -13,4 +13,21 @@
 	height: 100vh;
 	background-color: rgb(10, 10, 10);
 	margin-right: 1em;
+	position: relative;
+}
+
+.closeButton {
+	color: white;
+	font-size: 30px;
+	background-color: grey;
+	border-radius: 50px;
+	width: 2em;
+	height: 2em;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 1em;
+	left: calc(50% - 1em);
 }

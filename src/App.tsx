@@ -3,6 +3,7 @@ import "./index.css";
 import "./App.css";
 import ReccomendPage from "./ReccomendPage";
 import Title from "./Title";
+import NavWrapper from "./NavWrapper";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -22,7 +23,11 @@ function App() {
 					<Route index element={<Title />} />
 					<Route
 						path="/reccomend"
-						element={<ReccomendPage setToken={setJwt} />}
+						element={
+							<NavWrapper>
+								<ReccomendPage setToken={setJwt} />
+							</NavWrapper>
+						}
 					/>
 				</Routes>
 			</BrowserRouter>
