@@ -16,18 +16,44 @@
 	position: relative;
 }
 
+.openButton,
 .closeButton {
-	color: white;
+	position: fixed;
+	color: rgba(255, 255, 255, 0.1);
 	font-size: 30px;
-	background-color: grey;
-	border-radius: 50px;
+	background-color: rgba(128, 128, 128, 0.1);
 	width: 2em;
 	height: 2em;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
+	cursor: pointer;
 	bottom: 1em;
-	left: calc(50% - 1em);
+	z-index: 1;
+}
+
+.closeButton {
+	border-radius: 50px;
+	/* position: absolute */
+	/* left: calc(50% - 1em); */
+	left: calc(
+		16 / 30 * 15em / 2 - 1em
+	); /* 16px is the wrapper font size, 30px is the button font size so we have to do that division)*/
+	/* the two commented out sections can be used to place closeButton relative to nav */
+}
+
+.openButton {
+	border-radius: 10px 50px 50px 10px;
+}
+
+.closeButton:hover,
+.openButton:hover {
+	color: rgb(224, 212, 158);
+	background-color: rgb(99, 82, 82);
+}
+
+.buttonWrap {
+	height: 100vh;
+	position: relative;
 }
