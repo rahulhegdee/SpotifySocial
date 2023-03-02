@@ -7,7 +7,7 @@ function Title() {
 	const token = useContext(TokenContext);
 
 	return (
-		<div>
+		<>
 			{token != null ? (
 				<Navigate to="/reccomend" replace={true} />
 			) : (
@@ -54,7 +54,7 @@ function Title() {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
 

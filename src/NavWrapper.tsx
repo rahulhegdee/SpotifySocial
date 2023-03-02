@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 
 function NavWrapper({ children }: any) {
 	return (
-		<div>
+		<div style={{ height: "100%" }}>
 			<NavBar />
 			<>{children}</>
 		</div>

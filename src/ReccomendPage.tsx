@@ -52,11 +52,11 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 	}, [setToken]);
 
 	return (
-		<div>
+		<>
 			{isLoadingToken ? (
 				<p>Loading...</p>
 			) : (
-				<div>
+				<>
 					{token != null ? (
 						<div className={styles.wrapper}>
 							<SideNav
@@ -81,9 +81,9 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 					) : (
 						<Navigate to="/" replace={true} />
 					)}
-				</div>
+				</>
 			)}
-		</div>
+		</>
 	);
 }
 
