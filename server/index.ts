@@ -36,12 +36,10 @@ function base64URLEncode(str: any) {
 const verifier = base64URLEncode(randomBytes(32));
 
 function sha256(buffer: any) {
-	return createHash("sha256")
-		.update(buffer)
-		.digest();
+	return createHash("sha256").update(buffer).digest();
 }
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
 	res.setHeader("Access-Control-Allow-Credentials", "true");
 	res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -91,7 +89,7 @@ function verifyToken(req: TokenRequest, res: Response, next: any) {
 	}
 }
 
-app.get("/login", function(req, res) {
+app.get("/login", function (req, res) {
 	let challenge = base64URLEncode(sha256(verifier));
 
 	const scope =
@@ -111,7 +109,7 @@ app.get("/login", function(req, res) {
 	);
 });
 
-app.post("/access", async function(req, res) {
+app.post("/access", async function (req, res) {
 	const code = req.body.code || null;
 	const userState = req.body.state || null;
 
@@ -191,7 +189,7 @@ app.post("/access", async function(req, res) {
 	}
 });
 
-app.get("/top/tracks", verifyToken, async function(req: TokenRequest, res) {
+app.get("/top/tracks", verifyToken, async function (req: TokenRequest, res) {
 	const accessToken = req.accessToken;
 	let timeRange = req.query.timeRange;
 	if (
@@ -205,7 +203,7 @@ app.get("/top/tracks", verifyToken, async function(req: TokenRequest, res) {
 	try {
 		const topTracks = await axios
 			.get("https://api.spotify.com/v1/me/top/tracks", {
-				params: { time_range: timeRange },
+				params: { time_range: timeRange, limit: 50 },
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
@@ -221,7 +219,7 @@ app.get("/top/tracks", verifyToken, async function(req: TokenRequest, res) {
 	}
 });
 
-app.get("/recent/tracks", verifyToken, async function(req: TokenRequest, res) {
+app.get("/recent/tracks", verifyToken, async function (req: TokenRequest, res) {
 	const accessToken = req.accessToken;
 	try {
 		const recentTracks = await axios

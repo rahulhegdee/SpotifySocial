@@ -4,15 +4,19 @@ import styles from "./ReccomendPage.module.css";
 import { TokenContext } from "./App";
 import ContentGrid from "./ContentGrid";
 import SideNav from "./SideNav";
+import { PageContent } from "./utilities/types";
 
 type ReccomendPageProps = {
 	setToken: (newToken: string) => void;
 };
 
 function ReccomendPage({ setToken }: ReccomendPageProps) {
-	const [name, setName] = useState("");
-	const [profilePic, setProfilePic] = useState("");
 	const [isLoadingToken, setIsLoadingToken] = useState(true); // we have to replace this to become a loading state
+	const [pageContent, setPageContent] = useState<PageContent>({
+		headerName: "",
+		contentEndpoint: "",
+		contentType: "",
+	});
 
 	const token = useContext(TokenContext);
 
@@ -61,20 +65,40 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 						<div className={styles.wrapper}>
 							<SideNav
 								sections={[
-									{ header: "Listening Activity", pages: [] },
+									{
+										header: "Listening Activity",
+										pages: [
+											{
+												name: "Recent Activity",
+												endpoint: "/recent/tracks",
+												type: "recent",
+											},
+											{
+												name: "Top 4 Weeks",
+												endpoint: "/top/tracks?timeRange=short_term",
+												type: "top",
+											},
+											{
+												name: "Top 6 Months",
+												endpoint: "/top/tracks?timeRange=medium_term",
+												type: "top",
+											},
+											{
+												name: "Top Few Years",
+												endpoint: "/top/tracks?timeRange=long_term",
+												type: "top",
+											},
+										],
+									},
 									{ header: "Playlists", pages: [] },
 								]}
+								setFunc={setPageContent}
 							/>
 							<div>
 								<ContentGrid
-									headerName={"Recent Plays"}
-									contentEndpoint="/recent/tracks"
-									contentType="recent"
-								/>
-								<ContentGrid
-									headerName={"Top 4 Weeks"}
-									contentEndpoint="/top/tracks?timeRange=short_term"
-									contentType="top"
+									headerName={pageContent.headerName}
+									contentEndpoint={pageContent.contentEndpoint}
+									contentType={pageContent.contentType}
 								/>
 							</div>
 						</div>

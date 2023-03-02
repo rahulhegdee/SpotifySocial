@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
+	const [name, setName] = useState("");
+	const [profilePic, setProfilePic] = useState("");
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.sections}>

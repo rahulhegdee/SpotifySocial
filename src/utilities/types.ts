@@ -10,10 +10,18 @@ export type TrackInfo = {
 
 export type Page = {
 	name: string;
-	content: Array<any>;
+	endpoint: string;
+	type: string;
 };
 
 export type NavSection = {
 	header: string;
 	pages: Array<Page>;
+};
+
+export type PageContent = {
+	headerName: string;
+	contentEndpoint: string;
+	contentType: "top" | "recent" | "";
+	// Add a numContent field here
 };

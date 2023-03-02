@@ -4,9 +4,10 @@ import styles from "./SideNav.module.css";
 
 type SideNavProps = {
 	sections: Array<NavSection>;
+	setFunc: any;
 };
 
-function SideNav({ sections }: SideNavProps) {
+function SideNav({ sections, setFunc }: SideNavProps) {
 	let [displaySideNav, setDisplaySideNav] = useState(false);
 
 	function toggleDisplay() {
@@ -20,6 +21,25 @@ function SideNav({ sections }: SideNavProps) {
 						return (
 							<div key={section.header}>
 								<h1 className={styles.header}>{section.header}</h1>
+								<div>
+									{section.pages.map((page) => {
+										return (
+											<p
+												key={page.name}
+												className={styles.page}
+												onClick={() =>
+													setFunc({
+														headerName: page.name,
+														contentType: page.type,
+														contentEndpoint: page.endpoint,
+													})
+												}
+											>
+												{page.name}
+											</p>
+										);
+									})}
+								</div>
 							</div>
 						);
 					})}
