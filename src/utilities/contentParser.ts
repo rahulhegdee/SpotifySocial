@@ -1,4 +1,4 @@
-import { TrackInfo } from "./types";
+import { TrackInfo, PlaylistInfo } from "./types";
 
 function getItems(data: any) {
 	return data?.data?.items ?? [];
@@ -55,4 +55,33 @@ export function parseRecentTracks(data: any): Array<TrackInfo> {
 		return trackMap;
 	});
 	return parsedItems;
+}
+
+export function parsePlaylists(data: any): Array<PlaylistInfo> {
+	const items = data?.data?.items;
+	const parsedItems = items.map((item: any) => {
+		const name = item.name;
+		const id = item.id;
+		const URI = item?.external_urls?.spotify;
+		const tracksEndpoint = item?.tracks?.href;
+		return {
+			name,
+			id,
+			URI,
+			tracksEndpoint,
+		};
+	});
+	return parsedItems;
+}
+
+export function formatPlaylistsForSideNav(pages: any): Array<any> {
+	const formattedPages = pages.map((page: any) => {
+		return {
+			name: page.name,
+			endpoint: page.tracksEndpoint,
+			id: page.id,
+			type: "playlist",
+		};
+	});
+	return formattedPages;
 }

@@ -8,10 +8,18 @@ export type TrackInfo = {
 	trackID?: string;
 };
 
+export type PlaylistInfo = {
+	name: string;
+	id: string;
+	URI: string;
+	tracksEndpoint: string;
+};
+
 export type Page = {
 	name: string;
 	endpoint: string;
 	type: string;
+	id?: string;
 };
 
 export type NavSection = {
@@ -22,6 +30,6 @@ export type NavSection = {
 export type PageContent = {
 	headerName: string;
 	contentEndpoint: string;
-	contentType: "top" | "recent" | "";
+	contentType: "top" | "recent";
 	// Add a numContent field here
 };

@@ -239,6 +239,52 @@ app.get("/recent/tracks", verifyToken, async function (req: TokenRequest, res) {
 	}
 });
 
+app.get("/playlists", verifyToken, async function (req: TokenRequest, res) {
+	try {
+		const userPlaylists = await axios
+			.get("https://api.spotify.com/v1/me/playlists", {
+				params: { limit: 50 },
+				headers: {
+					Authorization: `Bearer ${req.accessToken}`,
+				},
+			})
+			.then((res) => res.data);
+		res.status(200).json({
+			data: userPlaylists,
+		});
+	} catch (err) {
+		res.status(500).json({
+			message: err,
+		});
+	}
+});
+
+app.get(
+	"/playlist/:playlistID",
+	verifyToken,
+	async function (req: TokenRequest, res) {
+		// const playlistID = req.params.id;
+		const playlistID = "4smw973bI4zmZJHRHP5IXU";
+		try {
+			const userPlaylists = await axios
+				.get(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
+					params: { limit: 50 },
+					headers: {
+						Authorization: `Bearer ${req.accessToken}`,
+					},
+				})
+				.then((res) => res.data);
+			res.status(200).json({
+				data: userPlaylists,
+			});
+		} catch (err) {
+			res.status(500).json({
+				message: err,
+			});
+		}
+	}
+);
+
 app.listen(PORT, () => {
 	console.log(`listening on PORT ${PORT}`);
 });

@@ -4,7 +4,11 @@ import styles from "./ReccomendPage.module.css";
 import { TokenContext } from "./App";
 import ContentGrid from "./ContentGrid";
 import SideNav from "./SideNav";
-import { PageContent } from "./utilities/types";
+import { PageContent, Page } from "./utilities/types";
+import {
+	formatPlaylistsForSideNav,
+	parsePlaylists,
+} from "./utilities/contentParser";
 
 type ReccomendPageProps = {
 	setToken: (newToken: string) => void;
@@ -13,10 +17,11 @@ type ReccomendPageProps = {
 function ReccomendPage({ setToken }: ReccomendPageProps) {
 	const [isLoadingToken, setIsLoadingToken] = useState(true); // we have to replace this to become a loading state
 	const [pageContent, setPageContent] = useState<PageContent>({
-		headerName: "",
-		contentEndpoint: "",
-		contentType: "",
+		headerName: "Recent Activity",
+		contentEndpoint: "/recent/tracks",
+		contentType: "recent",
 	});
+	const [userPlaylists, setUserPlaylists] = useState<Array<Page>>([]);
 
 	const token = useContext(TokenContext);
 
@@ -55,6 +60,37 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 		}
 	}, [setToken]);
 
+	useEffect(() => {
+		function userPlaylists() {
+			fetch("http://localhost:8000/playlists", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: token,
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => parsePlaylists(res))
+				.then((res) => formatPlaylistsForSideNav(res))
+				.then((res) => setUserPlaylists(res));
+		}
+		function getPlay() {
+			fetch("http://localhost:8000/playlist/4smw973bI4zmZJHRHP5IXU", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: token,
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => console.log(res));
+		}
+		userPlaylists();
+		getPlay();
+	}, [token]);
+
 	return (
 		<>
 			{isLoadingToken ? (
@@ -90,7 +126,7 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 											},
 										],
 									},
-									{ header: "Playlists", pages: [] },
+									{ header: "Playlists", pages: userPlaylists },
 								]}
 								setFunc={setPageContent}
 							/>

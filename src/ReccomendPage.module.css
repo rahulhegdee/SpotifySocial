@@ -4,4 +4,5 @@
 	flex-direction: row;
 	align-items: flex-start;
 	flex-grow: 1;
+	flex-shrink: 0;
 }

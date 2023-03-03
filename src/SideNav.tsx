@@ -25,7 +25,7 @@ function SideNav({ sections, setFunc }: SideNavProps) {
 									{section.pages.map((page) => {
 										return (
 											<p
-												key={page.name}
+												key={page.id ?? page.name}
 												className={styles.page}
 												onClick={() =>
 													setFunc({
