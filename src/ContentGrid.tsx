@@ -16,10 +16,27 @@ function ContentGrid({
 
 	useEffect(() => {
 		const parseContent = (data: Object): any => {
-			return contentType === "top"
-				? parseTopTracks(data)
-				: parseRecentTracks(data);
+			switch (contentType) {
+				case "top":
+					return parseTopTracks(data);
+				case "recent":
+					return parseRecentTracks(data);
+			}
 		};
+
+		function getPlay() {
+			fetch("http://localhost:8000/playlist/4smw973bI4zmZJHRHP5IXU", {
+				//change contentEndpoint for the playlists to match this format
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: token,
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => console.log(res));
+		}
 
 		(async () => {
 			try {

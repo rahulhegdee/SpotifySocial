@@ -1,7 +1,8 @@
 .layout {
 	color: white;
 	border-radius: 10px;
-	padding-bottom: 2em;
+	height: 100%;
+	overflow-y: scroll;
 }
 
 .grid {

@@ -5,4 +5,5 @@
 	align-items: flex-start;
 	flex-grow: 1;
 	flex-shrink: 0;
+	height: calc(100% - 6em);
 }

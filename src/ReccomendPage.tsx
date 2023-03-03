@@ -130,13 +130,11 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 								]}
 								setFunc={setPageContent}
 							/>
-							<div>
-								<ContentGrid
-									headerName={pageContent.headerName}
-									contentEndpoint={pageContent.contentEndpoint}
-									contentType={pageContent.contentType}
-								/>
-							</div>
+							<ContentGrid
+								headerName={pageContent.headerName}
+								contentEndpoint={pageContent.contentEndpoint}
+								contentType={pageContent.contentType}
+							/>
 						</div>
 					) : (
 						<Navigate to="/" replace={true} />
