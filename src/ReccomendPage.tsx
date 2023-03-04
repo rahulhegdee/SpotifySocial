@@ -75,20 +75,7 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 				.then((res) => formatPlaylistsForSideNav(res))
 				.then((res) => setUserPlaylists(res));
 		}
-		function getPlay() {
-			fetch("http://localhost:8000/playlist/4smw973bI4zmZJHRHP5IXU", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-					Authorization: token,
-				},
-			})
-				.then((res) => res.json())
-				.then((res) => console.log(res));
-		}
 		userPlaylists();
-		getPlay();
 	}, [token]);
 
 	return (

@@ -58,7 +58,7 @@ export function parseRecentTracks(data: any): Array<TrackInfo> {
 }
 
 export function parsePlaylists(data: any): Array<PlaylistInfo> {
-	const items = data?.data?.items;
+	const items = getItems(data);
 	const parsedItems = items.map((item: any) => {
 		const name = item.name;
 		const id = item.id;
@@ -70,6 +70,18 @@ export function parsePlaylists(data: any): Array<PlaylistInfo> {
 			URI,
 			tracksEndpoint,
 		};
+	});
+	return parsedItems;
+}
+
+export function parsePlaylistTracks(data: any) {
+	const items = getItems(data);
+	const parsedItems = items.map((item: any) => {
+		const track = item.track;
+		const id = item.id;
+		const trackMap = trackParser(track);
+		trackMap["trackID"] = id;
+		return trackMap;
 	});
 	return parsedItems;
 }

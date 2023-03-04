@@ -30,6 +30,6 @@ export type NavSection = {
 export type PageContent = {
 	headerName: string;
 	contentEndpoint: string;
-	contentType: "top" | "recent";
+	contentType: "top" | "recent" | "playlist";
 	// Add a numContent field here
 };

@@ -1,7 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TokenContext } from "./App";
 import TrackCard from "./TrackCard";
-import { parseTopTracks, parseRecentTracks } from "./utilities/contentParser";
+import {
+	parseTopTracks,
+	parseRecentTracks,
+	parsePlaylistTracks,
+} from "./utilities/contentParser";
 import styles from "./ContentGrid.module.css";
 import { PageContent } from "./utilities/types";
 
@@ -21,6 +25,8 @@ function ContentGrid({
 					return parseTopTracks(data);
 				case "recent":
 					return parseRecentTracks(data);
+				case "playlist":
+					return parsePlaylistTracks(data);
 			}
 		};
 
@@ -33,9 +39,7 @@ function ContentGrid({
 					Accept: "application/json",
 					Authorization: token,
 				},
-			})
-				.then((res) => res.json())
-				.then((res) => console.log(res));
+			});
 		}
 
 		(async () => {
