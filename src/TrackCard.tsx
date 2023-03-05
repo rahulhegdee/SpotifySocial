@@ -51,7 +51,7 @@ function TrackCard({ trackInfo }: TrackCardProps) {
 			{albumType === "album" && <p className={styles.albumName}>{albumName}</p>}
 			<div className={styles.dimmer}>
 				<i className="fa fa-play" onClick={playSong}></i>
-				<i className="fa fa-bars" onClick={getSongInfo}></i>
+				<i className="fa fa-info-circle" onClick={getSongInfo}></i>
 				<i className="fa fa-share"></i>
 			</div>
 		</div>
