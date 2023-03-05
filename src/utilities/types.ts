@@ -6,6 +6,7 @@ export type TrackInfo = {
 	spotifyURI: string;
 	playURI: string;
 	albumType: string;
+	isLocal: boolean;
 	trackID?: string;
 };
 

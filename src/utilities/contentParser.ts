@@ -26,6 +26,8 @@ function trackParser(track: any): TrackInfo {
 
 	const playURI = track?.uri;
 
+	const isLocal = track?.is_local;
+
 	return {
 		artistName: artists,
 		songName: song,
@@ -34,6 +36,7 @@ function trackParser(track: any): TrackInfo {
 		spotifyURI: infoURI,
 		albumType: albumType,
 		playURI,
+		isLocal,
 	};
 }
 
@@ -81,7 +84,7 @@ export function parsePlaylistTracks(data: any) {
 	const items = getItems(data);
 	const parsedItems = items.map((item: any) => {
 		const track = item.track;
-		const id = item.id;
+		const id = track.id;
 		const trackMap = trackParser(track);
 		trackMap["trackID"] = id;
 		return trackMap;

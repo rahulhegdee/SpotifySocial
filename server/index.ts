@@ -201,10 +201,11 @@ app.get("/top/tracks", verifyToken, async function (req: TokenRequest, res) {
 		timeRange = "short_term";
 	}
 	const numItems = req.query.limit;
+	const startIndex = req.query.offset;
 	try {
 		const topTracks = await axios
 			.get("https://api.spotify.com/v1/me/top/tracks", {
-				params: { time_range: timeRange, limit: numItems },
+				params: { time_range: timeRange, limit: numItems, offset: startIndex },
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
@@ -223,10 +224,11 @@ app.get("/top/tracks", verifyToken, async function (req: TokenRequest, res) {
 app.get("/recent/tracks", verifyToken, async function (req: TokenRequest, res) {
 	const accessToken = req.accessToken;
 	const numItems = req.query.limit;
+	const startIndex = req.query.offset;
 	try {
 		const recentTracks = await axios
 			.get("https://api.spotify.com/v1/me/player/recently-played", {
-				params: { limit: numItems },
+				params: { limit: numItems, offset: startIndex },
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},

@@ -18,6 +18,7 @@ function ContentGrid({
 	const [shouldLoadItems, setShouldLoadItems] = useState(false);
 	const [hasNext, setHasNext] = useState(false);
 	const [offset, setOffset] = useState(0);
+	const [abortController, setAbortController] = useState<AbortController>();
 
 	const limit = 50;
 
@@ -35,18 +36,23 @@ function ContentGrid({
 	};
 
 	const getContent = async () => {
+		const newAbortController = new AbortController();
+		setAbortController(newAbortController);
+
 		try {
-			const contentData = await fetch(
-				`http://localhost:8000${contentEndpoint}?limit=${limit}&offset=${offset}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
+			const querySymbol = contentType === "top" ? "&" : "?";
+
+			const endpoint = `http://localhost:8000${contentEndpoint}${querySymbol}limit=${limit}&offset=${offset}`;
+
+			const contentData = await fetch(endpoint, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: token,
+				},
+				signal: newAbortController.signal,
+			}).then((res) => res.json());
 			console.log(contentData);
 
 			const newContent = parseContent(contentData);
@@ -56,7 +62,8 @@ function ContentGrid({
 
 			if (
 				contentData?.data?.total == null ||
-				contentData?.data?.offset >= contentData?.data?.total
+				contentData?.data?.offset + contentData?.data?.limit >=
+					contentData?.data?.total
 			) {
 				setHasNext(false);
 			} else {
@@ -77,6 +84,15 @@ function ContentGrid({
 		setOffset(0);
 		setContent([]);
 	}, [headerName]);
+
+	useEffect(() => {
+		// cleanup function to abort previous getContent call whenever getContent is run
+		return () => {
+			if (abortController != null) {
+				abortController.abort();
+			}
+		};
+	}, [abortController]);
 
 	useEffect(() => {
 		// when both offset and content are both reset, get new content
@@ -106,6 +122,9 @@ function ContentGrid({
 			<h1>{headerName}</h1>
 			<div className={styles.grid}>
 				{content.map((item) => {
+					if (item.isLocal) {
+						return null;
+					}
 					return (
 						<div key={item.trackID} className={styles.item}>
 							<TrackCard trackInfo={item} />
