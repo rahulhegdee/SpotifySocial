@@ -30,18 +30,6 @@ function ContentGrid({
 			}
 		};
 
-		function getPlay() {
-			fetch("http://localhost:8000/playlist/4smw973bI4zmZJHRHP5IXU", {
-				//change contentEndpoint for the playlists to match this format
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-					Authorization: token,
-				},
-			});
-		}
-
 		(async () => {
 			try {
 				const contentData = await fetch(

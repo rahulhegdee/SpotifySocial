@@ -22,15 +22,18 @@ function trackParser(track: any): TrackInfo {
 
 	const albumType = track?.album?.type;
 
-	const URI = track?.external_urls?.spotify;
+	const infoURI = track?.external_urls?.spotify;
+
+	const playURI = track?.uri;
 
 	return {
 		artistName: artists,
 		songName: song,
 		songCover: cover,
 		albumName: album,
-		spotifyURI: URI,
+		spotifyURI: infoURI,
 		albumType: albumType,
+		playURI,
 	};
 }
 
@@ -90,7 +93,8 @@ export function formatPlaylistsForSideNav(pages: any): Array<any> {
 	const formattedPages = pages.map((page: any) => {
 		return {
 			name: page.name,
-			endpoint: page.tracksEndpoint,
+			endpointOld: page.tracksEndpoint,
+			endpoint: `/playlist/${page.id}`,
 			id: page.id,
 			type: "playlist",
 		};

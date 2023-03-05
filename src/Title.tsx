@@ -26,8 +26,7 @@ function Title() {
 								<img
 									src={require("./spotify.png")}
 									className={styles.spotifyLogo}
-									width="30px"
-									height="30px"
+									alt="Spotify Logo"
 								/>
 								<p className={styles.loginText}>LOGIN WITH SPOTIFY</p>
 							</a>
@@ -37,16 +36,32 @@ function Title() {
 						<p id={styles.company}>© Santa's Workshop 2023</p>
 						<div className={styles.socials}>
 							<p>
-								<a href="https://github.com/rahulhegdee" target="_blank">
+								<a
+									href="https://github.com/rahulhegdee"
+									target="_blank"
+									rel="noreferrer"
+								>
 									<i className="fa fa-github"></i>
 								</a>
-								<a href="https://twitter.com/rahulhegdee" target="_blank">
+								<a
+									href="https://twitter.com/rahulhegdee"
+									target="_blank"
+									rel="noreferrer"
+								>
 									<i className="fa fa-twitter"></i>
 								</a>
-								<a href="https://instagram.com/rahulhegdee" target="_blank">
+								<a
+									href="https://instagram.com/rahulhegdee"
+									target="_blank"
+									rel="noreferrer"
+								>
 									<i className="fa fa-instagram"></i>
 								</a>
-								<a href="https://linkedin.com/in/rahulhegde" target="_blank">
+								<a
+									href="https://linkedin.com/in/rahulhegde"
+									target="_blank"
+									rel="noreferrer"
+								>
 									<i className="fa fa-linkedin"></i>
 								</a>
 							</p>
