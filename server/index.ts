@@ -284,37 +284,22 @@ app.get("/playlist/:id", verifyToken, async function (req: TokenRequest, res) {
 app.put("/play", verifyToken, async function (req: TokenRequest, res) {
 	const uri = req.body.uri;
 	try {
-		// console.log(req.accessToken);
-		// await axios.put(
-		// 	`https://api.spotify.com/v1/me/player/play`,
-		// 	{
-		// 		context_uri: uri,
-		// 	"position_ms": 0
-		// 	},
-		// 	{
-		// 		headers: {
-		// 			Authorization: `Bearer ${req.accessToken}`,
-		// 			"Content-Type": "application/x-www-form-urlencoded",
-		// 		},
-		// 	}
-		// );
 		await axios({
 			method: "put",
 			url: `https://api.spotify.com/v1/me/player/play`,
-			headers: {
-				Authorization: `Bearer ${req.accessToken}`,
-				"Content-Type": "application/json",
-			},
 			data: {
-				context_uri: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
-				position_ms: 0,
+				uris: [`${uri}`],
+			},
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${req.accessToken}`,
 			},
 		});
 		res.status(200).json({
 			message: "success",
 		});
 	} catch (err: any) {
-		console.log(err.message);
 		res.status(500).json({
 			message: err,
 		});
