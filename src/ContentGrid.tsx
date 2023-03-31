@@ -102,19 +102,26 @@ function ContentGrid({
 	}, [offset, content]);
 
 	useEffect(() => {
-		if (shouldLoadItems === true) {
-			getContent();
+		async function loadNewItems() {
+			if (shouldLoadItems === true) {
+				await getContent();
+				setShouldLoadItems(false);
+			}
 		}
-		setShouldLoadItems(false);
+		loadNewItems();
 	}, [shouldLoadItems]);
 
 	const loadItems = (event: any) => {
 		const el = event.currentTarget;
 		const hasReachedBottom =
-			Math.abs(el.scrollHeight - el.clientHeight - el.scrollTop) <= 1;
+			Math.abs(el.scrollHeight - el.clientHeight - el.scrollTop) <= 500;
 		const shouldLoad =
 			hasReachedBottom && !shouldLoadItems && hasNext && content.length > 0;
-		setShouldLoadItems(shouldLoad);
+		if (!shouldLoadItems) {
+			// only change shouldLoadItems if it was false before. Otherwise, this will overwrite the previous getContent call
+			// shouldLoadItems will then be set to false when getContent is done in the useEffect
+			setShouldLoadItems(shouldLoad);
+		}
 	};
 
 	return (

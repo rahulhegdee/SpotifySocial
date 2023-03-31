@@ -62,7 +62,7 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 
 	useEffect(() => {
 		function userPlaylists() {
-			fetch("http://localhost:8000/playlists?limit=50", {
+			fetch(`http://localhost:8000/playlists?limit=50&offset=0`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
