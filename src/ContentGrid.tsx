@@ -53,7 +53,6 @@ function ContentGrid({
 				},
 				signal: newAbortController.signal,
 			}).then((res) => res.json());
-			console.log(contentData);
 
 			const newContent = parseContent(contentData);
 			setContent((prevContent) => {

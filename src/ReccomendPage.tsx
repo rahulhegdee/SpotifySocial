@@ -61,21 +61,44 @@ function ReccomendPage({ setToken }: ReccomendPageProps) {
 	}, [setToken]);
 
 	useEffect(() => {
-		function userPlaylists() {
-			fetch(`http://localhost:8000/playlists?limit=50&offset=0`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-					Authorization: token,
-				},
-			})
-				.then((res) => res.json())
-				.then((res) => parsePlaylists(res))
-				.then((res) => formatPlaylistsForSideNav(res))
-				.then((res) => setUserPlaylists(res));
+		async function userPlaylists(offset: number) {
+			const playlistData = await fetch(
+				`http://localhost:8000/playlists?limit=50&offset=${offset}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+						Authorization: token,
+					},
+				}
+			).then((res) => res.json());
+
+			const parsedPlaylists = parsePlaylists(playlistData);
+			const formattedPlaylists = formatPlaylistsForSideNav(parsedPlaylists);
+			setUserPlaylists((playlists) => {
+				return [...playlists, ...formattedPlaylists];
+			});
+
+			if (
+				playlistData?.data?.total == null ||
+				playlistData?.data?.offset + playlistData?.data?.limit >=
+					playlistData?.data?.total
+			) {
+				return -1;
+			} else {
+				return playlistData?.data?.offset + playlistData?.data?.limit;
+			}
 		}
-		userPlaylists();
+
+		async function getPlaylists() {
+			let nextPlaylistOffset = 0;
+			while (nextPlaylistOffset !== -1) {
+				nextPlaylistOffset = await userPlaylists(nextPlaylistOffset);
+			}
+		}
+
+		getPlaylists();
 	}, [token]);
 
 	return (

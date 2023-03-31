@@ -5,6 +5,10 @@
 	overflow-y: scroll;
 }
 
+::-webkit-scrollbar {
+	display: none;
+}
+
 .grid {
 	display: flex;
 	flex-direction: row;
